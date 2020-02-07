@@ -36,6 +36,10 @@ It should commincate to other devices in a uni-directional mode and only need to
 Since I will be using the Arduino IDE, it will be important to share step-by-step what libraries, frequencies, baud-rate, etc
 and any other device specific things that I will use. I will add more detail here when I get to it
 
+USB Driver for my particular board/s
+  - Silicon Labs CP210x USB to UART Bridge Driver Ver. 10.1.8.2466
+  - buad 9600, 8 data bits
+
 [Arduino IDE](https://www.arduino.cc/en/Main/Software)
   - Current version is 1.8.11
 Pinout Reference
