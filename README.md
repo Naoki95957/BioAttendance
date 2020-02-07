@@ -38,3 +38,5 @@ and any other device specific things that I will use. I will add more detail her
 
 [Arduino IDE](https://www.arduino.cc/en/Main/Software)
   - Current version is 1.8.11
+Pinout Reference
+  ![ESP32_pinout](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2018/08/ESP32-DOIT-DEVKIT-V1-Board-Pinout-30-GPIOs-Copy.png)
