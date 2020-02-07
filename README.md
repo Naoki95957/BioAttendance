@@ -41,6 +41,8 @@ USB Driver for my particular board/s
   - buad 9600, 8 data bits
 
 [Arduino IDE](https://www.arduino.cc/en/Main/Software)
+  - **When uploading, don't forget to hold boot!**
   - Current version is 1.8.11
+  
 Pinout Reference
   ![ESP32_pinout](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2018/08/ESP32-DOIT-DEVKIT-V1-Board-Pinout-30-GPIOs-Copy.png)
