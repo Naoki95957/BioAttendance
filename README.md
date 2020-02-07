@@ -39,6 +39,7 @@ and any other device specific things that I will use. I will add more detail her
 USB Driver for my particular board/s
   - Silicon Labs CP210x USB to UART Bridge Driver Ver. 10.1.8.2466
   - buad 9600, 8 data bits
+  - for windows, check the device manager to ensure your device is comming up under 'Ports (COM & PT)'
 
 [Arduino IDE](https://www.arduino.cc/en/Main/Software)
   - **When uploading, don't forget to hold boot!**
