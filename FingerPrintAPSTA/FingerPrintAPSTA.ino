@@ -9,15 +9,16 @@
 const char *assid = "esp32";
 const char *asecret = "secret123456";
 
+WiFiServer server(80);
+
+// Auxiliary variables
+bool buttonState = "off";
 String newPSK = "";
 String newSSID = "";
 
-WiFiServer server(80);
-
-// Auxiliar variables to store the current output state
-bool buttonState = "off";
-
 void setup() {
+  //this is the buad rate
+  //you can view serial with 'CTRL + SHIFT + M'
   Serial.begin(115200);
   WiFi.mode(WIFI_AP_STA);
 
@@ -27,12 +28,18 @@ void setup() {
   Serial.println(asecret);
   WiFi.softAP(assid,asecret);
   Serial.print("IP address:\t");
+  //this address by defualt is 192.168.4.1
   Serial.println(WiFi.softAPIP());
 
-  //do stuff
+  //doing stuff that I'm unaware of
   server.begin();
 }
 
+/***
+ * This will attempt to connect to a wifi network
+ * 
+ * timeout of 10s
+ */
 void connectToSSID(const char * ssid, const char * password)
 {
   Serial.print("connecting to...");
@@ -46,7 +53,7 @@ void connectToSSID(const char * ssid, const char * password)
     delay(500);
     Serial.print(".");
     ++counter;
-    if(counter > 30)//wait for approx 15s  
+    if(counter > 20)//wait for approx 10s  
     {
       Serial.print("Failed to connect to:");
       Serial.println(ssid);
@@ -59,7 +66,12 @@ void connectToSSID(const char * ssid, const char * password)
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());   
 }
+
 //will return with </p> for indentation in html
+/***
+ * scans networks and prints them in serial and 
+ * prepares a string for viewing on a webpage
+ */
 String scanNetworks()
 {
   Serial.println("scan start");
@@ -139,6 +151,16 @@ void loop() {
     delete [] cssid;
     delete [] cpsk;
   }
+
+  //HTML is going to be an ugly mess because we're basically building it on the fly
+  //alternatively...
+  //
+  //
+  //
+  //
+  // ...
+  // ... we'll make an app that automataically formats the requests for the user
+  // this won't be as universal since it'll no longer be supported with browsers however
 
   String html = "<!DOCTYPE html> \
 <html> \
