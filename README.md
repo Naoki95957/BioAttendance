@@ -44,6 +44,12 @@ USB Driver for my particular board/s
 [Arduino IDE](https://www.arduino.cc/en/Main/Software)
   - **When uploading, don't forget to hold boot!**
   - Current version is 1.8.11
+  - Adding board manager
+    - File > Preferences
+      - insert this literal text-link into 'Additional Board Manager URLs:'
+      - https://dl.espressif.com/dl/package_esp32_index.json
+     - Tools > Board > Boards Manager
+      - Search for ESP32 and install the manager
   
 Pinout Reference
   ![ESP32_pinout](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2018/08/ESP32-DOIT-DEVKIT-V1-Board-Pinout-30-GPIOs-Copy.png)
