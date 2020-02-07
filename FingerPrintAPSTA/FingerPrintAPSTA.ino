@@ -9,6 +9,9 @@
 const char *assid = "esp32";
 const char *asecret = "secret123456";
 
+String newPSK = "";
+String newSSID = "";
+
 WiFiServer server(80);
 
 // Auxiliar variables to store the current output state
@@ -37,9 +40,18 @@ void connectToSSID(const char * ssid, const char * password)
 
   WiFi.begin(ssid,password);
 
+  int counter = 0;
+
   while(WiFi.status() != WL_CONNECTED){
     delay(500);
     Serial.print(".");
+    ++counter;
+    if(counter > 30)//wait for approx 15s  
+    {
+      Serial.print("Failed to connect to:");
+      Serial.println(ssid);
+      return;
+    }
   }
 
   Serial.println("");
@@ -99,22 +111,33 @@ void loop() {
     //scanner button
     willScan = true;
   }
-  if(request.indexOf("Text1=") != -1)
+  //if textboxes contain info
+  if(request.indexOf("T1=") != -1 && request.indexOf("T2=") != -1)
   {
-    if (request.length() < 100) 
-    {
-      Serial.print(request);
-    }
+    //plus 3 to account for the length of the string
+    newSSID = request.substring(request.indexOf("T1=") + 3, request.indexOf("&T2="));
+    Serial.println(newSSID);
+    newPSK = request.substring(request.indexOf("T2=") + 3, request.indexOf("HTTP"));
+    Serial.println(newPSK);
   }
   if(request.indexOf("BUTTON=NOTHING") != -1)
   {
-     //useless button
+    Serial.println("ATTEMPTING TO ESTABLISH STA");
+    char * cssid = new char[newSSID.length()];
+    char * cpsk = new char[newPSK.length()];
+
+    newSSID.toCharArray(cssid, newSSID.length() + 1);
+    newPSK.toCharArray(cpsk, newPSK.length() + 1);
+
+    Serial.println(cssid);
+    Serial.println(cpsk);
      
     //dont judge me plz lol
     //I tried to make my hobby slightly more appealing to my ex at the time
     //we will replace these strings with one that a user passes
-    connectToSSID("Sugar Internet (2.4GHz)", "f8g92svbf9nic4sugar");
-  
+    connectToSSID(cssid, cpsk);
+    delete [] cssid;
+    delete [] cpsk;
   }
 
   String html = "<!DOCTYPE html> \
@@ -125,7 +148,8 @@ void loop() {
     <form> \
       <button name=\"SCANNER\" button style=\"color:green\" value=\"ON\" type=\"submit\">SCAN NETWORKS</button> \
       <button name=\"BUTTON\" button style=\"color=red\" value=\"NOTHING\" type=\"submit\">USELESS BUTTON</button><br><br> \
-      <input TYPE=TEXT NAME='Text1' VALUE='' SIZE='25' MAXLENGTH='50'></input> \
+      <input TYPE=TEXT NAME='T1' VALUE='' SIZE='25' MAXLENGTH='50'></input> \
+      <input TYPE=TEXT NAME='T2' VALUE='' SIZE='25' MAXLENGTH='50'></input> \
       </p>";//break a line
    
   String closingHtml = "</form> \
