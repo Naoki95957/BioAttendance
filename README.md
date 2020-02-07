@@ -7,11 +7,11 @@ The premise is that using biometrics, we will take the attendance of students...
 So the current idea is to use a fingreprint reader. 
 
 I currently am testing this model:
-  - GT-521F32 - Fingerprint Sensor Evaluation Board
+  - [GT-521F32 - Fingerprint Sensor Evaluation Board](https://www.sparkfun.com/products/14518)
 
 I intend to use an ESP-32 and whether it is genuine espressif or not doesn't matter to me
 I am currently using these ESP-32 wroom models:
-  - https://www.aliexpress.com/item/32793415575.html
+  - [Genuine ESP-32 wroom](https://www.aliexpress.com/item/32793415575.html)
 
 The current outline is to make this both an access point and a client*
   - Access point
