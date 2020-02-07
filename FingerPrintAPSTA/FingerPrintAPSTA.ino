@@ -7,10 +7,7 @@
 
 //note 2.4ghz wifi
 const char *assid = "esp32";
-const char *asecret = "naoki123456";
-
-const char* www_username = "admin";
-const char* www_password = "esp32";
+const char *asecret = "secret123456";
 
 WiFiServer server(80);
 
@@ -31,9 +28,6 @@ void setup() {
 
   //do stuff
   server.begin();
-  //dont judge me plz lol
-  //I tried to make my hobby slightly more appealing to my ex at the time
-  connectToSSID("Sugar Internet (2.4GHz)", "f8g92svbf9nic4sugar");
 }
 
 void connectToSSID(const char * ssid, const char * password)
@@ -108,6 +102,12 @@ void loop() {
   if(request.indexOf("BUTTON=NOTHING") >= 0)
   {
      //useless button
+     
+    //dont judge me plz lol
+    //I tried to make my hobby slightly more appealing to my ex at the time
+    //we will replace these strings with one that a user passes
+    connectToSSID("Sugar Internet (2.4GHz)", "f8g92svbf9nic4sugar");
+  
   }
 
   String html = "<!DOCTYPE html> \
