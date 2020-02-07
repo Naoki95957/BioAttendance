@@ -33,5 +33,5 @@ The client connection will be used so that when in a LAN it can talk to a more d
 It should commincate to other devices in a uni-directional mode and only need to serve as an http-server or database client.
 
 ## Setting up the ESP-32
-Since I will be using the Arduino IDE, it will be important to share step-by-step what libraries, baud-rate, and any other device specific 
-things that I will use. I will add more detail here when I get to it
+Since I will be using the Arduino IDE, it will be important to share step-by-step what libraries, frequencies, baud-rate, etc
+and any other device specific things that I will use. I will add more detail here when I get to it
