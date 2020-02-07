@@ -11,7 +11,7 @@ I currently am testing this model:
 
 I intend to use an ESP-32 and whether it is genuine espressif or not doesn't matter to me.
 I am currently using these ESP-32 wroom models:
-  - [Genuine ESP-32 wroom](https://www.aliexpress.com/item/32793415575.html)
+  - [Genuine ESP-32 wroom](https://www.aliexpress.com/item/4000090132509.html)
 
 The current outline is to make this both an access point and a client*
   - Access point
