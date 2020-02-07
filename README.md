@@ -50,6 +50,7 @@ USB Driver for my particular board/s
       - https://dl.espressif.com/dl/package_esp32_index.json
      - Tools > Board > Boards Manager
       - Search for ESP32 and install the manager
+  - I'm currently using **ESP32 DEV MODULE** but the **DOIT ESP32 DEVKIT V1** and a few others should work too. Just be sure to pick the board you have and if you don't see it, go with **ESP32 DEV MODULE**
   
 Pinout Reference
   ![ESP32_pinout](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2018/08/ESP32-DOIT-DEVKIT-V1-Board-Pinout-30-GPIOs-Copy.png)
