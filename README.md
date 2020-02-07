@@ -40,6 +40,10 @@ USB Driver for my particular board/s
   - Silicon Labs CP210x USB to UART Bridge Driver Ver. 10.1.8.2466
   - buad 9600, 8 data bits
   - for windows, check the device manager to ensure your device is comming up under 'Ports (COM & PT)'
+  
+Testing HTTP webservicing
+  - Use incognito or any browser that doesn't chache 
+    - This is neccessary since the communication is primarily going to be done by indexing the url header
 
 ### [Arduino IDE](https://www.arduino.cc/en/Main/Software)
   - **When uploading, don't forget to hold boot!**
