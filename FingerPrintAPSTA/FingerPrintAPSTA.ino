@@ -94,12 +94,19 @@ void loop() {
   {
   String request = client.readStringUntil('\r');
   bool willScan = false;
-  if(request.indexOf("SCANNER=ON") >= 0)
+  if(request.indexOf("SCANNER=ON") != -1)
   {
     //scanner button
     willScan = true;
   }
-  if(request.indexOf("BUTTON=NOTHING") >= 0)
+  if(request.indexOf("Text1=") != -1)
+  {
+    if (request.length() < 100) 
+    {
+      Serial.print(request);
+    }
+  }
+  if(request.indexOf("BUTTON=NOTHING") != -1)
   {
      //useless button
      
@@ -118,6 +125,7 @@ void loop() {
     <form> \
       <button name=\"SCANNER\" button style=\"color:green\" value=\"ON\" type=\"submit\">SCAN NETWORKS</button> \
       <button name=\"BUTTON\" button style=\"color=red\" value=\"NOTHING\" type=\"submit\">USELESS BUTTON</button><br><br> \
+      <input TYPE=TEXT NAME='Text1' VALUE='' SIZE='25' MAXLENGTH='50'></input> \
       </p>";//break a line
    
   String closingHtml = "</form> \
