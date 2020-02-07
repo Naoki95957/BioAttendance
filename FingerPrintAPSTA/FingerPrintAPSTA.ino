@@ -144,9 +144,6 @@ void loop() {
     Serial.println(cssid);
     Serial.println(cpsk);
      
-    //dont judge me plz lol
-    //I tried to make my hobby slightly more appealing to my ex at the time
-    //we will replace these strings with one that a user passes
     connectToSSID(cssid, cpsk);
     delete [] cssid;
     delete [] cpsk;
