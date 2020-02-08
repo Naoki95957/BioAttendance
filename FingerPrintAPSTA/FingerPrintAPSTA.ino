@@ -4,7 +4,7 @@
 #include <WebServer.h>]
 
 //kind of a working demo for a wifi scanner so far....
-
+//TODO use an auxiliary variable to get the device to stop attempting to connect after a timeout
 //note 2.4ghz wifi
 const char *assid = "esp32";
 const char *asecret = "secret123456";
