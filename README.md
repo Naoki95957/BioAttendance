@@ -10,7 +10,8 @@ I currently am testing this model:
   - [GT-521F32 - Fingerprint Sensor Evaluation Board](https://www.sparkfun.com/products/14518)
 
 I intend to use an ESP-32 and whether it is genuine espressif or not doesn't matter to me. I am going on the assumption that we will need as much space as possible and will be testing with the 32D module:
-  - [Genuine ESP-32 wroom 32D](https://www.amazon.com/HiLetgo-ESP-WROOM-32-Development-Microcontroller-Integrated/dp/B0718T232Z)
+  - [Genuine ESP-32 (Amazon)](https://www.amazon.com/HiLetgo-ESP-WROOM-32-Development-Microcontroller-Integrated/dp/B0718T232Z)
+  - [Genuine ESP-32 (Aliexpress)](https://www.aliexpress.com/item/4000090132509.html)
 
 The current outline is to make this both an access point and a client*
   - Access point
