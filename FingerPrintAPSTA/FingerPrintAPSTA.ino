@@ -64,7 +64,8 @@ void connectToSSID(const char * ssid, const char * password)
   Serial.println("");
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());   
+  Serial.println(WiFi.localIP());
+  return;
 }
 
 //will return with </p> for indentation in html
@@ -112,6 +113,17 @@ String scanNetworks()
   return output;
 }
 
+String fixURLStrings(String original)
+{
+  original.replace("+", " ");
+  original.replace("%28", "(");
+  original.replace("%29", ")");
+  original.replace("%3B", ";");
+  original.replace("%7B", "{");
+  original.replace("%7D", "}");
+  return original;
+}
+
 void loop() {
   WiFiClient client = server.available();  
   if(client)//handling input to hardware is going to be based on indexing page requests
@@ -128,8 +140,23 @@ void loop() {
   {
     //plus 3 to account for the length of the string
     newSSID = request.substring(request.indexOf("T1=") + 3, request.indexOf("&T2="));
+    int i = 0;
+    bool allDigits = true;
+    for(int j = 0; j < newSSID.length(); ++j )
+    {
+      if(!isDigit(newSSID.charAt(j)))
+      {
+        allDigits = false;
+      }
+    }
+    if(allDigits)
+    {
+      i = newSSID.toInt();//string to int
+      newSSID = WiFi.SSID(i - 1);//int to proper ssid
+    }
     Serial.println(newSSID);
-    newPSK = request.substring(request.indexOf("T2=") + 3, request.indexOf("HTTP"));
+    newPSK = request.substring(request.indexOf("T2=") + 3, request.indexOf("HTTP") - 1);
+    newPSK = fixURLStrings(newPSK);
     Serial.println(newPSK);
   }
   if(request.indexOf("BUTTON=NOTHING") != -1)
@@ -143,13 +170,8 @@ void loop() {
 
     Serial.println(cssid);
     Serial.println(cpsk);
-     
-    //dont judge me plz lol
-    //I tried to make my hobby slightly more appealing to my ex at the time
-    //we will replace these strings with one that a user passes
+    
     connectToSSID(cssid, cpsk);
-    delete [] cssid;
-    delete [] cpsk;
   }
 
   //HTML is going to be an ugly mess because we're basically building it on the fly
