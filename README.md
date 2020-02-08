@@ -81,7 +81,7 @@ Testing HTTP webservicing
     - Click upload and hold the boot button on the ESP-32 until you see it connects
     - Once it's finished, you're done!
 
-##Guide-lines
+## Guidelines
 Since this is my first attempt to collaborate an Arduino project, I'm not exactly sure how to split the work-load.
 I would ask that branching is done for now. I know that the master file must be .ino, but from there on out we should be able to add
 .c and .h files for arduino to use. I might right off everything except the html currently to some classes? We'll see what we need when it gets there. 
