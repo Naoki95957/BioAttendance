@@ -12,10 +12,12 @@ const char *asecret = "secret123456";
 WiFiServer server(80);
 
 // Auxiliary variables
-bool buttonState = "off";
+bool scannedNetwork = false;
 String newPSK = "";
 String newSSID = "";
+String lastRequest = "";
 
+//runs once
 void setup() {
   //this is the buad rate
   //you can view serial with 'CTRL + SHIFT + M'
@@ -113,6 +115,8 @@ String scanNetworks()
   return output;
 }
 
+//since %num is a way for html to pass special characters in html
+//this will be a growing list :(
 String fixURLStrings(String original)
 {
   original.replace("+", " ");
@@ -124,17 +128,29 @@ String fixURLStrings(String original)
   return original;
 }
 
+//runs indefinetly
 void loop() {
   WiFiClient client = server.available();  
   if(client)//handling input to hardware is going to be based on indexing page requests
   {
   String request = client.readStringUntil('\r');
-  bool willScan = false;
+
+  if(lastRequest == request)//no change found
+  {
+    delay(10);
+    return;
+  }
+
+  //-----------------------------START-----------------------------//
+  ///////////////Client response checking based on url///////////////
+  bool scanRequest = false;//temp aux is needed so that networks can be listed in html to client
   if(request.indexOf("SCANNER=ON") != -1)
   {
     //scanner button
-    willScan = true;
+    scanRequest = true;
+    scannedNetwork = true;
   }
+  
   //if textboxes contain info
   if(request.indexOf("T1=") != -1 && request.indexOf("T2=") != -1)
   {
@@ -142,37 +158,47 @@ void loop() {
     newSSID = request.substring(request.indexOf("T1=") + 3, request.indexOf("&T2="));
     int i = 0;
     bool allDigits = true;
-    for(int j = 0; j < newSSID.length(); ++j )
+    if(scannedNetwork)
     {
-      if(!isDigit(newSSID.charAt(j)))
+      for(int j = 0; j < newSSID.length(); ++j )
       {
-        allDigits = false;
+        if(!isDigit(newSSID.charAt(j)))
+        {
+          allDigits = false;
+        }
+      }
+      if(allDigits)
+      {
+        i = newSSID.toInt();//string to int
+        newSSID = WiFi.SSID(i - 1);//int to proper ssid
       }
     }
-    if(allDigits)
-    {
-      i = newSSID.toInt();//string to int
-      newSSID = WiFi.SSID(i - 1);//int to proper ssid
-    }
+    
     Serial.println(newSSID);
     newPSK = request.substring(request.indexOf("T2=") + 3, request.indexOf("HTTP") - 1);
     newPSK = fixURLStrings(newPSK);
     Serial.println(newPSK);
   }
-  if(request.indexOf("BUTTON=NOTHING") != -1)
+  
+  if(request.indexOf("JOIN_NETWORK=JOIN") != -1)//Both this and the scanner cannot be a possibility
   {
-    Serial.println("ATTEMPTING TO ESTABLISH STA");
-    char * cssid = new char[newSSID.length()];
-    char * cpsk = new char[newPSK.length()];
-
-    newSSID.toCharArray(cssid, newSSID.length() + 1);
-    newPSK.toCharArray(cpsk, newPSK.length() + 1);
-
-    Serial.println(cssid);
-    Serial.println(cpsk);
-    
-    connectToSSID(cssid, cpsk);
+    if(newSSID.length() > 0)
+    {
+      Serial.println("ATTEMPTING TO ESTABLISH STA");
+      char * cssid = new char[newSSID.length()];
+      char * cpsk = new char[newPSK.length()];
+  
+      newSSID.toCharArray(cssid, newSSID.length() + 1);
+      newPSK.toCharArray(cpsk, newPSK.length() + 1);
+  
+      Serial.println(cssid);
+      Serial.println(cpsk);
+      
+      connectToSSID(cssid, cpsk);
+    }
   }
+  ///////////////Client response checking based on url///////////////
+  //------------------------------END------------------------------//
 
   //HTML is going to be an ugly mess because we're basically building it on the fly
   //alternatively...
@@ -184,28 +210,35 @@ void loop() {
   // ... we'll make an app that automataically formats the requests for the user
   // this won't be as universal since it'll no longer be supported with browsers however
 
+
+  //////////////////////Writing HTML to the client///////////////////
+  //-----------------------------START-----------------------------//
   String html = "<!DOCTYPE html> \
-<html> \
-  <body> \
-    <center><h1>ESP32 Soft access point</h1></center> \
-    <center><h2>Web Server</h2></center> \
-    <form> \
-      <button name=\"SCANNER\" button style=\"color:green\" value=\"ON\" type=\"submit\">SCAN NETWORKS</button> \
-      <button name=\"BUTTON\" button style=\"color=red\" value=\"NOTHING\" type=\"submit\">USELESS BUTTON</button><br><br> \
-      <input TYPE=TEXT NAME='T1' VALUE='' SIZE='25' MAXLENGTH='50'></input> \
-      <input TYPE=TEXT NAME='T2' VALUE='' SIZE='25' MAXLENGTH='50'></input> \
-      </p>";//break a line
-   
-  String closingHtml = "</form> \
-  </body> \
-</html>";
+  <html> \
+    <body> \
+      <center><h1>ESP32 Soft access point</h1></center> \
+      <center><h2>Web Server</h2></center> \
+      <form> \
+        <button name=\"SCANNER\" button style=\"color:green\" value=\"ON\" type=\"submit\">SCAN NETWORKS</button> \
+        <button name=\"JOIN_NETWORK\" button style=\"color=red\" value=\"JOIN\" type=\"submit\">USELESS BUTTON</button><br><br> \
+        <input TYPE=TEXT NAME='T1' VALUE='' SIZE='25' MAXLENGTH='50'></input> \
+        <input TYPE=TEXT NAME='T2' VALUE='' SIZE='25' MAXLENGTH='50'></input> \
+        </p>";//break a line
+     
+    String closingHtml = "</form> \
+    </body> \
+  </html>";
   client.print(html);
-  if(willScan)
+  if(scanRequest)
   {
-    willScan = false;
     client.print(scanNetworks());
   }
   client.print(closingHtml);
+
+  
+  //////////////////////Writing HTML to the client///////////////////
+  //------------------------------END------------------------------//
+  lastRequest = "";
   request = "";
   }
 }
