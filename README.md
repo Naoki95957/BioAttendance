@@ -9,9 +9,8 @@ So the current idea is to use a fingreprint reader.
 I currently am testing this model:
   - [GT-521F32 - Fingerprint Sensor Evaluation Board](https://www.sparkfun.com/products/14518)
 
-I intend to use an ESP-32 and whether it is genuine espressif or not doesn't matter to me.
-I am currently using these ESP-32 wroom models:
-  - [Genuine ESP-32 wroom](https://www.aliexpress.com/item/4000090132509.html)
+I intend to use an ESP-32 and whether it is genuine espressif or not doesn't matter to me. I am going on the assumption that we will need as much space as possible and will be testing with the 32D module:
+  - [Genuine ESP-32 wroom 32D](https://www.amazon.com/HiLetgo-ESP-WROOM-32-Development-Microcontroller-Integrated/dp/B0718T232Z)
 
 The current outline is to make this both an access point and a client*
   - Access point
@@ -38,7 +37,7 @@ and any other device specific things that I will use. I will add more detail her
 
 USB Driver for my particular board/s
   - Silicon Labs CP210x USB to UART Bridge Driver Ver. 10.1.8.2466
-  - buad 9600, 8 data bits
+  - buad 9600, 8 data bits (this is different from serial comms on Arudino!)
   - for windows, check the device manager to ensure your device is comming up under 'Ports (COM & PT)'
   
 Testing HTTP webservicing
@@ -56,11 +55,33 @@ Testing HTTP webservicing
      - Tools > Board > Boards Manager
       - Search for ESP32 and install the manager
   - I'm currently using **ESP32 DEV MODULE** but the **DOIT ESP32 DEVKIT V1** and a few others should work too. Just be sure to pick the board you have and if you don't see it, go with **ESP32 DEV MODULE**
-
-A bulk of the libraries used will be from [espressif](https://github.com/espressif/arduino-esp32)
-  - Adding libraries
-    - Necessary librarys TBD
-    - Sketch > Include Library > Add .ZIP library
   
+  - Adding libraries
+    - A bulk of the libraries used will be from [espressif](https://github.com/espressif/arduino-esp32)
+      - Necessary librarys TBD
+      - Sketch > Include Library > Add .ZIP library
+
+  - Board settings (under tools)
+    - Upload Speed: 921600
+    - CPU Frequency: 240MHz (WiFi/BT)
+    - Flash Frequency: 80MHz
+    - Flash Mode: QIO
+    - Flash Size: 16MB (128Mb)
+    - Partition Scheme: 16MB Flash (3MB APP/9MB FATFS)
+    - Core Debug Level: None
+    - PSRAM: Disabled
+  
+  - Uploading a sketch
+    - Ensure that the device is connected and showing up in device manager
+      - if not, you may have to check for correct drivers
+      - sometimes its also just a bad cable
+    - Select the port in Arduino IDE under tools
+    - Programmer should be left as default (AVRISP mkII)
+    - Click upload and hold the boot button on the ESP-32 until you see it connects
+    - Once it's finished, you're done!
 Pinout Reference
   ![ESP32_pinout](https://i0.wp.com/randomnerdtutorials.com/wp-content/uploads/2018/08/ESP32-DOIT-DEVKIT-V1-Board-Pinout-30-GPIOs-Copy.png)
+  
+  
+## Extras
+I might look into OTA options for this project. Having that capability with the device once it is already packaged up will be nice. This is entirely conditional however since the project is not done and I do not know the size constraints for things like program memory, file systems, etc.
