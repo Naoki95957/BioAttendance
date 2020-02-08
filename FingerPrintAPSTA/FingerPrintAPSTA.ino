@@ -117,6 +117,7 @@ String scanNetworks()
 
 //since %num is a way for html to pass special characters in html
 //this will be a growing list :(
+//lets just hope no one's passwords contain '%'
 String fixURLStrings(String original)
 {
   original.replace("+", " ");
