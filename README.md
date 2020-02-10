@@ -61,6 +61,8 @@ Testing HTTP webservicing
     - A bulk of the libraries used will be from [espressif](https://github.com/espressif/arduino-esp32)
       - Necessary librarys TBD
       - Sketch > Include Library > Add .ZIP library
+  - Custom libraries we will write:
+    - To install a library, just place the lib folder as a subfolder in your Arduino/lib/targets/libraries folder.
 
   - Board settings (under tools)
     - Upload Speed: 921600
