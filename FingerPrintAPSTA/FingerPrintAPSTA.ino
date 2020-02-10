@@ -160,7 +160,7 @@ void loop() {
   
   //////////////////////Writing HTML to the client///////////////////
   //------------------------------END------------------------------//
-  lastRequest = "";
+  lastRequest = request;
   request = "";
   }
 }
