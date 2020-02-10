@@ -42,7 +42,7 @@ USB Driver for my particular board/s
   - for windows, check the device manager to ensure your device is comming up under 'Ports (COM & PT)'
   
 Testing HTTP webservicing
-  - Use incognito or any browser that doesn't chache 
+  - ~Use incognito or any browser that doesn't chache~ Caching should be disabled now
     - This is neccessary since the communication is primarily going to be done by indexing the url header
 
 ### [Arduino IDE](https://www.arduino.cc/en/Main/Software)
