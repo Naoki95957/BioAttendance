@@ -124,11 +124,19 @@ void loop() {
   // ... we'll make an app that automataically formats the requests for the user
   // this won't be as universal since it'll no longer be supported with browsers however
 
-
   //////////////////////Writing HTML to the client///////////////////
   //-----------------------------START-----------------------------//
+
+  //meta tags are necessary to get browsers to stop cache
+  //cache control is for http 1.1
+  //pragma for http 1.0
+  //expires for proxies
+  
   String html = "<!DOCTYPE html> \
   <html> \
+    <meta http-equiv=\"Cache-Control\" content=\"no-cache, no-store, must-revalidate\" /> \
+    <meta http-equiv=\"Pragma\" content=\"no-cache\" /> \
+    <meta http-equiv=\"Expires\" content=\"0\" /> \
     <body> \
       <center><h1>ESP32 Soft access point</h1></center> \
       <center><h2>Web Server</h2></center> \
