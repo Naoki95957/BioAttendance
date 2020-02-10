@@ -83,7 +83,7 @@ String scanNetworks()
   int n = WiFi.scanNetworks();
   String output = "";
   Serial.println("scan done");
-  if (n == 0) {
+  if (n <= 0) {
     Serial.println("no networks found");
     output += "no networks found</p>";
   } else {
@@ -118,15 +118,59 @@ String scanNetworks()
 //since %num is a way for html to pass special characters in html
 //this will be a growing list :(
 //lets just hope no one's passwords contain '%'
-String fixURLStrings(String original)
+String decodeURLStrings(String original)
 {
-  original.replace("+", " ");
-  original.replace("%28", "(");
-  original.replace("%29", ")");
-  original.replace("%3B", ";");
-  original.replace("%7B", "{");
-  original.replace("%7D", "}");
-  return original;
+  char * coriginal = new char[original.length()];
+  original.toCharArray(coriginal, original.length() + 1);
+  return String(decodeURL(coriginal));
+}
+
+/***
+ * NOT MY CODE
+ * Thanks to this fellow:
+ * https://arduino.stackexchange.com/questions/18007/simple-url-decoding 
+ * 
+ * This decodes the %HH into ascii since the urls are encoded
+ */
+char * decodeURL(char * encodedURL)
+{
+  // Create two pointers that point to the start of the data
+  char *leader = encodedURL;
+  char *follower = leader;
+  
+  // While we're not at the end of the string (current character not NULL)
+  while (*leader) {
+      // Check to see if the current character is a %
+      if (*leader == '%') {
+  
+          // Grab the next two characters and move leader forwards
+          leader++;
+          char high = *leader;
+          leader++;
+          char low = *leader;
+  
+          // Convert ASCII 0-9A-F to a value 0-15
+          if (high > 0x39) high -= 7;
+          high &= 0x0f;
+  
+          // Same again for the low byte:
+          if (low > 0x39) low -= 7;
+          low &= 0x0f;
+  
+          // Combine the two into a single byte and store in follower:
+          *follower = (high << 4) | low;
+      } else {
+          // All other characters copy verbatim
+          *follower = *leader;
+      }
+  
+      // Move both pointers to the next character:
+      leader++;
+      follower++;
+  }
+  // Terminate the new string with a NULL character to trim it off
+  *follower = 0; 
+  return encodedURL;
 }
 
 //runs indefinetly
@@ -173,11 +217,15 @@ void loop() {
         i = newSSID.toInt();//string to int
         newSSID = WiFi.SSID(i - 1);//int to proper ssid
       }
+      else
+      {
+        newSSID = decodeURLStrings(newSSID);
+      }
     }
     
     Serial.println(newSSID);
     newPSK = request.substring(request.indexOf("T2=") + 3, request.indexOf("HTTP") - 1);
-    newPSK = fixURLStrings(newPSK);
+    newPSK = decodeURLStrings(newPSK);
     Serial.println(newPSK);
   }
   
@@ -221,7 +269,7 @@ void loop() {
       <center><h2>Web Server</h2></center> \
       <form> \
         <button name=\"SCANNER\" button style=\"color:green\" value=\"ON\" type=\"submit\">SCAN NETWORKS</button> \
-        <button name=\"JOIN_NETWORK\" button style=\"color=red\" value=\"JOIN\" type=\"submit\">USELESS BUTTON</button><br><br> \
+        <button name=\"JOIN_NETWORK\" button style=\"color=red\" value=\"JOIN\" type=\"submit\">CONNECT TO NETWORK</button><br><br> \
         <input TYPE=TEXT NAME='T1' VALUE='' SIZE='25' MAXLENGTH='50'></input> \
         <input TYPE=TEXT NAME='T2' VALUE='' SIZE='25' MAXLENGTH='50'></input> \
         </p>";//break a line
