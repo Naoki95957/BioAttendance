@@ -43,7 +43,7 @@ USB Driver for my particular board/s
   
 Testing HTTP webservicing
   - ~Use incognito or any browser that doesn't chache~ Caching should be disabled now
-    - This is neccessary since the communication is primarily going to be done by indexing the url header
+    - This is neccessary since the communication is primarily going to be done by indexing the url header and directly writing the html on the fly to the client
 
 ### [Arduino IDE](https://www.arduino.cc/en/Main/Software)
   - **When uploading, don't forget to hold boot!**
