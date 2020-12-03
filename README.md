@@ -1,3 +1,5 @@
+### _(This has been currently haulted and I may or may not get back to it)_
+
 # What an absurd name for a repo
 
 Anyway, this will be the start of an attendance logger in an attempt to make the classroom 'smarter'
