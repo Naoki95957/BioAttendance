@@ -86,7 +86,7 @@ Testing HTTP webservicing
     - Once it's finished, you're done!
 
 ## Guidelines
-Since this is my first attempt to collaborate an Arduino project, I'm not exactly sure how to split the work-load.
+Since this is my first attempt to collaborate an Arduino project, I'm not exactly sure how to split the work-load (no one hopped in so that's not a problem).
 I would ask that branching is done for now. I know that the master file must be .ino, but from there on out we should be able to add
 .c and .h files for arduino to use. I might right off everything except the html currently to some classes? We'll see what we need when it gets there. 
 
